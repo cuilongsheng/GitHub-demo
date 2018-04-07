@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./vendor/layui/css/layui.css">
+    <script src="vendor/layui/layui.js"></script>
+    <title>Title</title>
+    <script src="vendor/js/jquery.js"></script>
+    <link rel="stylesheet" href="vendor/datatables/dataTables.bootstrap4.css">
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+</head>
+
+<body>
+
+    <div class="contentTest" contenteditable="true">
+        我是原来的内容
+    </div>
+    <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th style="color:#1EB292">序号</th>
+                <th style="color:#1EB292">信誉分数</th>
+                <th style="color:#1EB292">信誉级别</th>
+                <th style="color:#1EB292">标签额度</th>
+                <th style="color:#1EB292">备注</th>
+                <th style="color:#1EB292">操作</th>
+            </tr>
+
+        </thead>
+
+        <div style="width:280px;position:absolute;right:8px;top:8px;z-index:9;">
+            <a href="firm/product/addFproduct.jsp" class="btn btn-sm" style="background:#1EB292;color:#fff;width:80px;"><img src="images/add.png" height="8" alt="" style="margin-right:4px;">添加</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-sm" style="background:#1EB292;color:#fff;width:60px;">导入</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-sm" style="background:#1EB292;color:#fff;width:60px;">导出</button>
+        </div>
+
+        <tbody>
+
+            <c:forEach var="c" items="${credites}" varStatus="status">
+                <tr>
+                    <td>${status.index+1}</td>
+                    <td>${c.creditgrade}分</td>
+                    <td>${c.companylevel}</td>
+                    <td>${c.levellabel}万</td>
+                    <td>${c.creditdemo}</td>
+                    <td><a href="loadProductinfo.action?productinfoid=${c.creditid}" style="margin-right: 10px;">修改</a>
+                        <a href="delProduct.action?productinfoid=${c.creditid}">删除</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+
+    </table>
+    <script>
+        $(function() {
+            var data = [{
+                "name": "Tiger Nixon",
+                "position": "System Architect",
+                "salary": "$3,120",
+                "start_date": "2011/04/25",
+                "office": "Edinburgh",
+                "extn": "5421"
+            }, {
+                "name": "Garrett Winters",
+                "position": "Director",
+                "salary": "$5,300",
+                "start_date": "2011/07/25",
+                "office": "Edinburgh",
+                "extn": "8422"
+            }];
+            //object可以如下初始化表格
+            $('#example').DataTable({
+                data: data,
+                //使用对象数组，一定要配置columns，告诉 DataTables 每列对应的属性
+                //data 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                columns: [{
+                    data: 'name'
+                }, {
+                    data: 'position'
+                }, {
+                    data: 'salary'
+                }, {
+                    data: 'office'
+                }]
+            });
+            // 查询显示内容
+            $.ajax({
+                url: 'http://localhost:3000/posts',
+                type: 'get',
+                dataType: 'jsonp',
+                async: false,
+                success: function(data) {
+                    console.log(data);
+                    $('.contentTest').text(data[0].companyaddress);
+                }
+            });
+
+            $('.contentTest').on('blur', function() {
+                var $value = $(this).html();
+                // console.log($value);
+                $.ajax({
+                    url: 'http://localhost:3000/posts',
+                    type: 'post',
+                    data: {
+                        companyaddress: $value
+                    },
+                    cache: false,
+                    dataType: 'json',
+                    async: true,
+                    success: function(data) {
+                        console.log('修改成功');
+                    },
+                    error: function() {
+                        console.log('修改失败');
+                    }
+
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

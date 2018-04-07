@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="vendor/css/bootstrap.css">
+    <script src="vendor/js/jquery.js"></script>
+    <script src="vendor/js/bootstrap.js"></script>
+    <style>
+        .active {
+            background-color: lightseagreen;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="tabbable faq-tabbable">
+        <li><a href="javascript:void(0)" class="active">我的合同</a></li>
+        <li><a href="test4.html">我的请款</a></li>
+        <li><a href="test5.html">我的入库</a></li>
+        <li><a href="#">我的付款</a></li>
+    </ul>
+    <script>
+        $(function() {
+                // $(".faq-tabbable li a").find("li a").each(function() {
+                // var a = $(this).find("a:first")[0];
+                // if ($(this).attr("href") === location.pathname) {
+                //     $(this).addClass("active");
+                // } else {
+                //     $(this).removeClass("active");
+                // }
+                $(".faq-tabbable li a").on('click', function() {
+                    console.log($(this).attr('href'));
+                    console.log(window.location.pathname);
+                    if ($(this).attr('href') == window.location.pathname) {
+                        $(this).addClass('active');
+                        $(this).parent().siblings().children().removeClass('active');
+                        console.log(true);
+                    } else {
+                        $(this).parent().siblings().children().removeClass('active');
+                        console.log(false);
+                    }
+                });
+                // });
+            })
+            // var test = window.location.pathname;
+            // alert(test);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100px;
+}
+
+@media(max-width: 414px) {
+    html {
+        font-size: 55px;
+    }
+}
+
+@media(max-width: 375px) {
+    html {
+        font-size: 50px;
+    }
+}
+
+@media(max-width: 320px) {
+    html {
+        font-size: 42.6px;
+    }
+}
